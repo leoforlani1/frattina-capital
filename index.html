@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frattina Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@200;300;400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:    #ffffff;
+      --off:      #f9f9f7;
+      --black:    #0c0c0c;
+      --mid:      #777770;
+      --light:    #c4c4bc;
+      --rule:     #e8e8e4;
+      --green:    #1a5c38;
+      --red:      #7a1c1c;
+      --green-bg: #f0f7f3;
+      --red-bg:   #fdf4f4;
+      --mono:     'IBM Plex Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      animation: pageIn 1s ease forwards 0.05s;
+    }
+
+    @keyframes pageIn { to { opacity: 1; } }
+    @keyframes up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .anim { opacity: 0; animation: up 0.9s ease forwards; }
+    .d1 { animation-delay: 0.12s; }
+    .d2 { animation-delay: 0.27s; }
+    .d3 { animation-delay: 0.42s; }
+    .d4 { animation-delay: 0.57s; }
+    .d5 { animation-delay: 0.72s; }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      padding: 0 40px;
+    }
+
+    /* ── HEADER ── */
+    header.container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .logo-mark { width: 94px; height: 94px; margin-bottom: 26px; }
+    .logo-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: grayscale(100%) contrast(1.15);
+    }
+
+    .wordmark { text-align: center; }
+    .wordmark h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3.8vw, 2.5rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .wordmark .sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.61rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 10px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { width: 100%; border: none; border-top: 1px solid var(--rule); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.58rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 26px;
+    }
+
+    /* ── RISK STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    .stat {
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-right: 1px solid var(--rule);
+      transition: background 0.2s;
+    }
+    .stat:last-child { border-right: none; }
+    .stat:hover { background: var(--off); }
+
+    .stat-val {
+      font-family: var(--mono);
+      font-weight: 300;
+      font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .stat-val.pos { color: var(--green); }
+    .stat-val.neg { color: var(--red); }
+
+    .stat-lbl {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.57rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ── MONTHLY TABLE ── */
+    .perf-wrap { border: 1px solid var(--rule); overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    thead th {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      padding: 14px 8px;
+      text-align: center;
+      border-bottom: 1px solid var(--rule);
+      white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; padding-left: 20px; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.18s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--off); }
+
+    tbody td {
+      padding: 16px 8px;
+      text-align: center;
+      font-family: var(--mono);
+      font-weight: 300;
+      font-size: 0.82rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    tbody td:first-child {
+      text-align: left;
+      padding-left: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--black);
+    }
+
+    td.pos { color: var(--green); }
+    td.neg { color: var(--red); }
+    td.empty { color: var(--light); font-size: 0.75rem; }
+
+    td.ytd { border-left: 1px solid var(--rule); }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+    .pill.pos { background: var(--green-bg); color: var(--green); }
+    .pill.neg { background: var(--red-bg);   color: var(--red); }
+
+    .table-note {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.57rem;
+      letter-spacing: 0.13em;
+      color: var(--light);
+      margin-top: 13px;
+    }
+
+    /* ── LINKS ── */
+    .links-row { display: flex; gap: 2px; }
+
+    .link-card {
+      flex: 1;
+      border: 1px solid var(--rule);
+      padding: 26px 22px;
+      text-decoration: none;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.2s;
+    }
+    .link-card:hover { background: var(--off); }
+
+    .link-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+    }
+    .link-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.57rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 5px;
+    }
+    .link-arrow {
+      font-size: 1rem;
+      color: var(--light);
+      transition: transform 0.18s, color 0.18s;
+    }
+    .link-card:hover .link-arrow { transform: translateX(4px); color: var(--black); }
+
+    /* ── FOOTER ── */
+    footer {
+      width: 100%;
+      border-top: 1px solid var(--rule);
+      margin-top: 72px;
+      padding: 28px 40px;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 200;
+      font-size: 0.57rem;
+      letter-spacing: 0.15em;
+      color: var(--light);
+      line-height: 2.1;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .container { padding: 0 20px; }
+      header.container { padding-top: 52px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--rule); }
+      .links-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="container anim d1">
+    <div class="logo-mark">
+      <img src="frattina.png" alt="Frattina Capital" />
+    </div>
+    <div class="wordmark">
+      <h1>Frattina Capital</h1>
+      <p class="sub">Discretionary Quantamental Macro</p>
+    </div>
+  </header>
+
+  <!-- RISK STATS -->
+  <div class="container anim d2" style="margin-top: 56px;">
+    <hr class="divider" style="margin-bottom: 46px;" />
+    <p class="section-label">Risk-Adjusted Performance — Since Inception · Jan 2026 · IBKR-Verified</p>
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-val pos">+7.90%</span>
+        <span class="stat-lbl">Total Return</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">2.70</span>
+        <span class="stat-lbl">Sharpe Ratio</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">4.18</span>
+        <span class="stat-lbl">Sortino Ratio</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val neg">−2.58%</span>
+        <span class="stat-lbl">Max Drawdown</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY RETURNS TABLE -->
+  <div class="container anim d3" style="margin-top: 52px;">
+    <p class="section-label">Monthly Returns</p>
+    <div class="perf-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Jan</th>
+            <th>Feb</th>
+            <th>Mar</th>
+            <th>Apr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Aug</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dec</th>
+            <th>YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026</td>
+            <td class="pos">+5.43%</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="ytd"><span class="pill pos">+5.43%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">IBKR-verified · Monthly returns, gross of fees · Past performance is not indicative of future results</p>
+  </div>
+
+  <!-- READ & FOLLOW -->
+  <div class="container anim d4" style="margin-top: 52px;">
+    <hr class="divider" style="margin-bottom: 46px;" />
+    <p class="section-label">Read &amp; Follow</p>
+    <div class="links-row">
+      <a class="link-card" href="https://substack.com/@frattinacapital" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="link-title">Substack</div>
+          <div class="link-sub">Market analysis &amp; timestamped trade ideas</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://x.com/frattinacapital" target="_blank" rel="noopener noreferrer">
+        <div>
+          <div class="link-title">X / Twitter</div>
+          <div class="link-sub">Real-time macro commentary</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="anim d5">
+    <p>
+      © 2026 Frattina Capital &nbsp;·&nbsp; Last updated February 2026<br />
+      For informational purposes only. Not investment advice. Not a solicitation to invest.<br />
+      Past performance is not indicative of future results.
+    </p>
+  </footer>
+
+</body>
+</html>
